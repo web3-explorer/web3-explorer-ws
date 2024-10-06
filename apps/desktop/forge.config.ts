@@ -17,7 +17,7 @@ import { rendererConfig } from './webpack.renderer.config';
 
 dotenv.config();
 
-const schemes = ['tc', 'tonkeeper', 'tonkeeper-tc'];
+const schemes = ['web3-explorer-ws'];
 
 const devAndRpmOptions = {
     name: 'Web3ExplorerWs',
