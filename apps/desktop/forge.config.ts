@@ -138,7 +138,7 @@ const config: ForgeConfig = {
     publishers: [
         new PublisherGithub({
             repository: {
-                owner: 'TonStockFi',
+                owner: 'web3-explorer',
                 name: 'web3-explorer-ws'
             },
             draft: true
