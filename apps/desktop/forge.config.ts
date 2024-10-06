@@ -15,8 +15,6 @@ import { MakerDebConfigOptions } from '@electron-forge/maker-deb/dist/Config';
 import { mainConfig } from './webpack.main.config';
 import { rendererConfig } from './webpack.renderer.config';
 
-console.log("BUILD_NO_PUBLISH",process.env.BUILD_NO_PUBLISH)
-
 dotenv.config();
 
 const schemes = ['tc', 'tonkeeper', 'tonkeeper-tc'];
@@ -38,10 +36,9 @@ const config: ForgeConfig = {
 
     packagerConfig: {
         download: {
-            mirrorOptions: {
-                // Disable auto-download of native dependencies
-                mirror: '',  // Empty string to prevent auto-download
-            }
+            mirrorOptions: !process.env.APPLE_API_KEY ? {
+                mirror:"",
+            }:undefined
         },
 
         asar: true,
@@ -55,18 +52,21 @@ const config: ForgeConfig = {
             }
         ],
         appBundleId: 'com.Web3ExplorerWs',
-        osxSign: {
-            optionsForFile: (optionsForFile: string) => {
-                return {
-                    entitlements: 'entitlements.plist'
-                };
-            }
-        },
-        osxNotarize: {
-            appleApiKey: process.env.APPLE_API_KEY,
-            appleApiKeyId: process.env.APPLE_API_KEY_ID,
-            appleApiIssuer: process.env.APPLE_API_ISSUER
-        } as NotaryToolCredentials,
+        ...(
+            process.env.APPLE_API_KEY ? {
+                osxSign: {
+                    optionsForFile: (optionsForFile: string) => {
+                        return {
+                            entitlements: 'entitlements.plist'
+                        };
+                    }
+                },
+                osxNotarize: {
+                    appleApiKey: process.env.APPLE_API_KEY,
+                    appleApiKeyId: process.env.APPLE_API_KEY_ID,
+                    appleApiIssuer: process.env.APPLE_API_ISSUER
+                } as NotaryToolCredentials,
+            }:{}),
         extraResource: ['./public']
     },
     rebuildConfig: {},
@@ -95,7 +95,7 @@ const config: ForgeConfig = {
                         x: 200,
                         y: 170,
                         type: 'file',
-                        path: `${process.cwd()}/out/Web3ExplorerWs-darwin-${arch}/Tonkeeper.app`
+                        path: `${process.cwd()}/out/Web3ExplorerWs-darwin-${arch}/Web3ExplorerWs.app`
                     },
                     { x: 400, y: 170, type: 'link', path: '/Applications' }
                 ]

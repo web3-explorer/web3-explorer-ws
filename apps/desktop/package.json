@@ -11,10 +11,9 @@
     "scripts": {
         "start": "electron-forge start",
         "package": "electron-forge package",
-        "make:no-publish": "BUILD_NO_PUBLISH=true electron-forge make",
         "make": "electron-forge make",
-        "make:win": "DEBUG='electron-forge:*' BUILD_NO_PUBLISH=true electron-forge make --platform=win32",
-        "make:mac": "DEBUG='electron-forge:*' BUILD_NO_PUBLISH=true electron-forge make --platform=darwin",
+        "make:win": "DEBUG='electron-forge:*' electron-forge make --platform=win32",
+        "make:mac": "DEBUG='electron-forge:*' electron-forge make --platform=darwin",
         "make:arm": "electron-forge make --arch=arm64",
         "make:intel": "electron-forge make --arch=x64",
         "make:universal": "electron-forge make --arch=universal",
