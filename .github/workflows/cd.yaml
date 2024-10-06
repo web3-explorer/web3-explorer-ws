@@ -61,7 +61,7 @@ jobs:
       - name: List vscode directory
         run: |
           echo "Contents of the vscode directory:"
-          dir ./.vscode
+          dir ./tests
 
       - name: List apps directory
         run: |
