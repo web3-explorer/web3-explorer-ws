@@ -1,0 +1,53 @@
+name: Web3ExplorerWs CD
+on:
+    push:
+      branches:
+        - main
+env:
+    node-version: 20.11.1
+
+permissions:
+  contents: write  # Grant write access to contents for release creation
+
+jobs:
+  desktop-build:
+    name: desktop-build
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            command: make:intel
+            tag: x64
+            dist: /apps/desktop/out/make/deb/x64
+          - os: ubuntu-latest
+            command: make:arm
+            tag: arm64
+            dist: /apps/desktop/out/make/deb/arm64
+          - os: windows-latest
+            command: make:intel
+            tag: x64
+            dist: /apps/desktop/out/make/squirrel.windows/x64/*Setup.exe
+
+
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    env:
+      APPLE_API_KEY: ${{ github.workspace }}/AuthKey.p8
+      APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+      APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+      REACT_APP_AMPLITUDE: ${{ secrets.REACT_APP_AMPLITUDE }}
+      REACT_APP_TG_BOT_ID: ${{ secrets.REACT_APP_TG_BOT_ID }}
+      REACT_APP_TONCONSOLE_API: https://pro.tonconsole.com
+      REACT_APP_TG_BOT_ORIGIN: https://tonkeeper.com
+      REACT_APP_APTABASE: ${{ secrets.VITE_APP_APTABASE }}
+      REACT_APP_APTABASE_HOST: https://anonymous-analytics.tonkeeper.com
+      REACT_APP_STONFI_REFERRAL_ADDRESS: ${{ secrets.REACT_APP_STONFI_REFERRAL_ADDRESS }}
+      DEBUG: electron*
+
+    steps:
+      - name: Print repository owner and name
+        run: |
+          echo "Repository owner: ${{ github.repository_owner }}"
+          echo "Repository name: ${{ github.event.repository.name }}"
+
+
