@@ -104,33 +104,38 @@ jobs:
         run: |
           rm ${{ github.workspace }}/AuthKey.p8
 
-#
-#  create-release:
-#    name: Create GitHub Release
-#    needs: desktop-build  # Run after the desktop-build job is done
-#    runs-on: ubuntu-latest
-#    permissions:
-#      contents: write
-#      pull-requests: write
-#      repository-projects: write
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v4
-#
-#
-#      - name: Create Release
-#        id: create_release
-#        uses: actions/create-release@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Provided automatically by GitHub
-#        with:
-#          tag_name: ${{ github.ref }}
-#          release_name: Release ${{ github.ref }}
-#          body: |
-#            Automatically generated release for ${{ github.ref }}.
-#          draft: false
-#          prerelease: false
-#
+
+  create-release:
+    name: Create GitHub Release
+    needs: desktop-build  # Run after the desktop-build job is done
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Provided automatically by GitHub
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Automatically generated release for ${{ github.ref }}.
+          draft: false
+          prerelease: false
+      - name: debug
+        run: |
+          ls apps/desktop/out/apps/desktop/out/make/deb/x64/
+          ls apps/desktop/out/make/deb/arm64/
+          ls apps/desktop/out/make/deb/arm64/
+          ls apps/desktop/out/make/squirrel.windows/x64/
 #      - name: Upload release assets (.zip, .deb, .exe)
 #        uses: actions/upload-release-asset@v1
 #        with:
