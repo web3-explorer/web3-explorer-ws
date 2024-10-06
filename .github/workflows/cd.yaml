@@ -63,10 +63,6 @@ jobs:
           echo "Contents of the vscode directory:"
           dir ./tests
 
-      - name: List apps directory
-        run: |
-          echo "Contents of the apps directory:"
-          dir ./apps
       - name: Decode service account into a file
         if: runner.os == 'macOS'
         env:
