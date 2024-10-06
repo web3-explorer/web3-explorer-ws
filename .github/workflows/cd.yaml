@@ -14,6 +14,14 @@ jobs:
     strategy:
       matrix:
         include:
+          - os: ubuntu-latest
+            command: make:intel
+            tag: x64
+            dist: /apps/desktop/out/make/deb/x64
+          - os: ubuntu-latest
+            command: make:arm
+            tag: arm64
+            dist: /apps/desktop/out/make/deb/arm64
           - os: windows-latest
             command: make:intel
             tag: x64
@@ -47,21 +55,6 @@ jobs:
       - name: Enable Corepack
         run: |
           corepack enable
-
-      - name: List current directory
-        run: |
-          echo "Contents of the current directory:"
-          dir ./
-
-      - name: List github directory
-        run: |
-          echo "Contents of the github directory:"
-          dir ./.github
-
-      - name: List vscode directory
-        run: |
-          echo "Contents of the vscode directory:"
-          dir ./tests
 
       - name: Decode service account into a file
         if: runner.os == 'macOS'
