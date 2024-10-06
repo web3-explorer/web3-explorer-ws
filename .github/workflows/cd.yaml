@@ -133,12 +133,10 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: |
-            apps/desktop/out/make/zip/**/*.zip
             apps/desktop/out/make/deb/x64/*.deb
             apps/desktop/out/make/deb/arm64/*.deb
             apps/desktop/out/make/squirrel.windows/x64/*Setup.exe
           asset_name: |
-            Web3ExplorerWs-${{ github.ref }}.zip
             Web3ExplorerWs-${{ github.ref }}-x64.deb
             Web3ExplorerWs-${{ github.ref }}-arm64.deb
             Web3ExplorerWs-${{ github.ref }}-Setup.exe
