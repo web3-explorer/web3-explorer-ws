@@ -109,7 +109,10 @@ jobs:
     name: Create GitHub Release
     needs: desktop-build  # Run after the desktop-build job is done
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
