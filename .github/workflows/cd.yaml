@@ -91,7 +91,7 @@ jobs:
       - name: Upload distributives to artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Tonkeeper Desktop ${{ runner.os }} ${{ matrix.tag }}
+          name: Web3 Explorer Desktop ${{ runner.os }} ${{ matrix.tag }}
           retention-days: 10
           path: |
             ${{ github.workspace }}${{ matrix.dist }}
@@ -102,3 +102,32 @@ jobs:
           rm ${{ github.workspace }}/AuthKey.p8
 
 
+  create-release:
+    name: Create GitHub Release
+    needs: desktop-build  # Run after the desktop-build job is done
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Automatically generated release for ${{ github.ref }}.
+          draft: false
+          prerelease: false
+
+      - name: Upload release assets
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: apps/desktop/out/make/**/*.zip  # Adjust as needed
+          asset_name: Web3ExplorerWs-${{ github.ref }}.zip
+          asset_content_type: application/zip
