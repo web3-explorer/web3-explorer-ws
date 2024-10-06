@@ -6,6 +6,9 @@ on:
 env:
     node-version: 20.11.1
 
+permissions:
+  contents: write  # Grant write access to contents for release creation
+
 jobs:
   desktop-build:
     name: desktop-build
@@ -111,11 +114,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Provided automatically by GitHub
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
