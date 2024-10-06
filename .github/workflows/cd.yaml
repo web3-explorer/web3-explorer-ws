@@ -116,14 +116,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-
       - name: debug
         run: |
-          ls apps/desktop/out/apps/desktop/out/make/deb/x64/
-          ls apps/desktop/out/make/deb/arm64/
-          ls apps/desktop/out/make/squirrel.windows/x64/
-          ls ${{ github.workspace }}/apps/desktop/out/make/zip/
           tree ${{ github.workspace }}/apps/desktop/out/make/
 
       - name: Create Release
